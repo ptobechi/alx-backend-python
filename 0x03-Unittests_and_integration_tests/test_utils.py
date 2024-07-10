@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-this module is a Parameterize a unit test
+This module is a Parameterize a unit test for the access_nested_map function.
 """
 
 import unittest
@@ -25,13 +25,30 @@ class TestAccessNestedMap(unittest.TestCase):
 
         Args:
             nested_map (dict): The nested dictionary to access.
-            path (tuple): The path of keys to access within the
-            nested dictionary.expected:
-            The expected result of accessing the nested dictionary
-            with the given path.
+            path (tuple): The path of keys to access within the nested dict.
+            expected: The expected result of accessing the
+            nested dictionary with the given path.
         """
         result = access_nested_map(nested_map, path)
         self.assertEqual(result, expected)
+
+    @parameterized.expand([
+        ({}, ("a",), KeyError("Key 'a' not found in nested_map")),
+        ({"a": 1}, ("a", "b"), KeyError("Key 'b' not found in {'a': 1}")),
+        ])
+    def test_access_nested_map_exception(self, nested_map, path, expected_exception):
+        """
+        Test access_nested_map function raises KeyError for specific inputs.
+
+        Args:
+            nested_map (dict): The nested dictionary to access.
+            path (tuple): The path of keys to access within the nested dict.
+            expected_exception: Expected exception object or its type and msg.
+        """
+        with self.assertRaises(KeyError) as context:
+            access_nested_map(nested_map, path)
+
+        self.assertEqual(str(context.exception), str(expected_exception))
 
 if __name__ == '__main__':
     unittest.main()
