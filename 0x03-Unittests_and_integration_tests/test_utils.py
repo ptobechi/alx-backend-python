@@ -1,6 +1,7 @@
 import unittest
-from parameterized import parameterized
-from utils import access_nested_map
+__import__('parameterized').parameterized
+__import__('utils').access_nested_map
+
 
 class TestAccessNestedMap(unittest.TestCase):
 
